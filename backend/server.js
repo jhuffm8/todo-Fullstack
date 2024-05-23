@@ -8,6 +8,8 @@ import todoRoutes from './routes/todoRoutes.js'
 const app = express()
 const PORT = 8080
 
+
+app.use(express.json())
 app.use('/api/todos', todoRoutes)
 
 app.get('/', (req, res) => {
