@@ -51,7 +51,7 @@ function App() {
      <br /> <br />
      {todos.map((todo) => 
       <p style={{ textDecoration: todo.completed ? 'line-through' : ''}} 
-        key={todo.text}>
+        key={todo._id}>
         {todo.text}
         </p>
       )}
