@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect} from 'react'
 import './App.css'
 
-
+const BASE_URL = `http://localhost:8080/api/todos`
 function App() {
 
+  const [isLoading, setIsLoading] = useState(false)
   const [todos, setTodos] = useState([])
 
   const textRef = useRef()
@@ -12,13 +13,18 @@ function App() {
   useEffect(() => {
    const getTodos = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/api/todos`)
+      setIsLoading(true)
+      const res = await fetch(BASE_URL)
       const data = await res.json()
       console.log(data)
       setTodos(data)
+      setIsLoading(false)
 
     } catch (error) {
       console.log(error)
+      setIsLoading(false)
+    } finally {
+      setIsLoading(false)
     }
   
     }
@@ -27,9 +33,25 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(textRef.current.value)
-    console.log(completeRef.current.checked)
+    const body = {
+      text: textRef.current.value,
+      completed: completeRef.current.checked,
+      user: "Omni-Man"
+    }
+   try {
+    const res = await fetch(BASE_URL, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const newTodo = await res.json()
+    setTodos([...todos, newTodo])
 
+   } catch (error) {
+    console.log(error.message)
+   } 
   }
 
 
