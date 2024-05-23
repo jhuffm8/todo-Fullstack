@@ -1,12 +1,34 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import './App.css'
 
 function App() {
 
+  const textRef = useRef()
+  const completeRef = useRef()
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(textRef.current.value)
+    console.log(completeRef.current.checked)
+
+  }
+
 
   return (
     <>
-     Hello from client
+     <h1>Todos</h1>
+     <form onSubmit={handleSubmit}>
+      <label>
+        I want to :
+        <br />
+        <input  type="text" ref={textRef}/>
+      </label>
+      <label >
+        <input type="checkbox" ref={completeRef} />
+      </label>
+      <br /> <br />
+      <button>Add Todo</button>
+     </form>
     </>
   )
 }
