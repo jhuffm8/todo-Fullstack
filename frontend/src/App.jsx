@@ -54,6 +54,18 @@ function App() {
    } 
   }
 
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`${BASE_URL}/${id}`, {
+        method: 'DELETE'
+      })
+      setTodos(todos.filter(todo => todo._id !== id))
+    } catch (error) {
+      console.log(error.message)
+    }
+
+  }
+
 
   return (
     <>
@@ -74,7 +86,10 @@ function App() {
      {todos.map((todo) => 
       <p style={{ textDecoration: todo.completed ? 'line-through' : ''}} 
         key={todo._id}>
-        {todo.text}
+        {todo.text} <span onClick={() => handleDelete(todo._id)} 
+        style={{marginLeft: '10px', fontWeight: '500', cursor: 'pointer'}}>
+          X
+          </span>
         </p>
       )}
 
